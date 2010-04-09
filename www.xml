@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<www site="www/index.xml" 
+     subsite="www/default.xml"
+     site-404="www/404.xml">
+     
+    <news site="news/index.xml">
+        <blah site="blah.xml"/>
+        <item regexp="[0-9]{4}/[0-9]{1,2}/[0-9]{1,2}" site="news/item.xml"/>
+        <item regexp="[0-9]{4}" site="news/item-2.xml"/>
+    </news>
+    <departments site="departments/index.xml" subsite="departments/item.xml">
+        <finance>
+            <law/>
+        </finance>
+        <politics/>
+        <it/>
+    </departments>
+</www>
