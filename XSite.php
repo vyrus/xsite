@@ -24,6 +24,7 @@ class XSite
     
     private static $url;
     
+    #Main method, displays page for URL
     public static function displayPage ($url)
     {
         self::$url = '/'.trim($url, '/');
@@ -40,6 +41,13 @@ class XSite
         $site->display();
     }
     
+    #Current URL    
+    public static function getUrl ()
+    {
+        return self::$url;
+    }
+    
+    #Common node, added to every page
     private static function commonNode ()
     {
         $doc = new DOMDocument('1.0', 'UTF-8');
