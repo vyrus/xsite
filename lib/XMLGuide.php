@@ -28,9 +28,16 @@ class XMLGuide
             $foundBranch = null;
             $part = array_shift($urlParts);
             
-            if (isset( $branch->{$part} )) {
+            if (isset( $branch->{$part} )) 
+            {
                 $branch = $branch->{$part};
-            } else {
+            }
+            else if (isset( $branch->item['name'] ) && $branch->item['name'] == $part)
+            {
+                $branch = $branch->item;
+            } 
+            else
+            {
                 $branch = null;
                 break;
             }                                            

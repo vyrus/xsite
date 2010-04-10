@@ -52,7 +52,7 @@ class XMLSite
     
     public function display () 
     {
-        $xslPath = $this->site->documentElement->getAttribute('trans');
+        $xslPath = $this->site->documentElement->getAttribute('transform');
         
         if (isset($_GET[XSite::VIEW_XML_OPTION]) || !$xslPath) 
 		{

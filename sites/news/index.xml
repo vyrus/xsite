@@ -1,6 +1,6 @@
 <?xml version="1.0"	encoding="utf-8"?>
 
-<page xmlns:xsite="urn:xsite-data" worker="Common" trans="www/index.xsl">
+<page xmlns:xsite="urn:xsite-data" worker="Common" transfrom="www/index.xsl">
     <content>
         <xsite:news/>
     </content>
