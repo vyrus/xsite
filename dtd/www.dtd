@@ -1,0 +1,15 @@
+<!DOCTYPE www [
+
+    <!ELEMENT www (item*,...)>    
+    <!ATTLIST www 
+              site     CDATA #REQUIRED
+              subsite  CDATA #REQUIRED
+              site-404 CDATA #REQUIRED>
+    
+    <!ELEMENT item ANY>    
+    <!ATTLIST item 
+              site    CDATA #REQUIRED
+              subsite CDATA #IMPLIED
+              name    CDATA #IMPLIED
+              regexp  CDATA #IMPLIED>    
+]>

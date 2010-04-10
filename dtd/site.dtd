@@ -1,0 +1,12 @@
+<!DOCTYPE page [
+
+    <!ELEMENT page (content,common?,request?)>    
+    <!ATTLIST page 
+              xmlns:xsite CDATA #REQUIRED
+              worker      CDATA #REQUIRED
+              transform   CDATA #REQUIRED>
+    
+    <!ELEMENT content ANY>
+    <!ELEMENT common  ANY>
+    <!ELEMENT request ANY>
+]>
