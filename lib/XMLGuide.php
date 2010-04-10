@@ -17,7 +17,7 @@ class XMLGuide
     
     public function getSitePath ($url)
     {
-        $url = trim($url, '/');                      
+        $url = trim($url, '/');        
         $urlParts = explode ('/', $url);        
         $branch = $this->xmlMap;
         
