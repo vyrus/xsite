@@ -54,7 +54,7 @@ class XMLSite
     
     public function display () 
     {
-        $xslPath = $this->site->documentElement->getAttribute('transform');
+        $xslPath = $this->site->documentElement->getAttribute('transform');        
         
         if (isset($_GET[XSite::VIEW_XML_OPTION]) || !$xslPath) 
 		{
@@ -62,9 +62,12 @@ class XMLSite
 			echo $this->site->saveXML();
 		}
 		else
-		{		    		    		    
+		{	
+		    $xslPath = XSite::XSL_PATH.$xslPath;    		    
+		    if (!file_exists($xslPath)) return;
+		    
 		    $xsl = new DOMDocument('1.0', 'UTF-8');
-    		$xsl->load(XSite::XSL_PATH.$xslPath);
+    		$xsl->load($xslPath);
 
     		$xslProc = new XSLTProcessor();
     		$xslProc->importStylesheet($xsl);
