@@ -25,15 +25,17 @@ class XMLSite
         $NSNodes = $this->site->getElementsByTagNameNS(XSite::WORKER_NAMESPACE, '*');
 		
 		while ($NSNodes->length)
-		{	
+		{			    		    
 			$node = $NSNodes->item(0);
-			$method = str_replace('-', '_', str_replace('xsite:', '', $node->nodeName));
-			#TODO: get all attributes to array
-			$src = $node->getAttribute('src');
 			
-			$w = new $worker ();
+			$args = array ();
+			foreach ($node->attributes as $attr)
+			    $args[$attr->name] = $attr->value;
 			
-			if ($dataNode = $src ? $w->$method($src) : $w->$method()) 
+			$method = str_replace('-', '_', str_replace('xsite:', '', $node->nodeName));			
+			$w = new $worker ();			
+			
+			if ($dataNode = $w->$method($args)) 
 				$node->parentNode->replaceChild(
 					$doc->importNode($dataNode, true), 
 					$node

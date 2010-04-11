@@ -2,6 +2,6 @@
 
 <page xmlns:xsite="urn:xsite-data" worker="Common" transfrom="www/index.xsl">
     <content>
-        <xsite:news/>
+        <xsite:news src="/some/path"/>
     </content>
 </page>

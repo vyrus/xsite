@@ -2,5 +2,5 @@
 
 class Common
 {   
-    public function news () {}
+    public function news ($args) { }
 }
