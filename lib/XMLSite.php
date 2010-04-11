@@ -6,8 +6,11 @@ class XMLSite
     
     public function load ($sitePath)
     {
+        $sitePath = XSite::SITE_PATH.$sitePath;
+        if (!file_exists($sitePath)) return;
+        
         $this->site = new DOMDocument('1.0', 'UTF-8');
-		$this->site->load(XSite::SITE_PATH.$sitePath);				
+		$this->site->load($sitePath);				
 		
 		#Worker		
 		$worker = $this->site->documentElement->getAttribute('worker');
@@ -47,13 +50,15 @@ class XMLSite
     
     public function appendNode ($DOMNode)
     {
-        $this->site->documentElement->appendChild( 
-			$this->site->importNode($DOMNode, true)
-		);
+        if ($this->site)
+            $this->site->documentElement->appendChild( 
+    			$this->site->importNode($DOMNode, true)
+    		);
     }   
     
     public function display () 
     {
+        if (!$this->site) return;
         $xslPath = $this->site->documentElement->getAttribute('transform');        
         
         if (isset($_GET[XSite::VIEW_XML_OPTION]) || !$xslPath) 
