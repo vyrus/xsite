@@ -69,7 +69,7 @@ class XSite
 		);
 		
 		#URL
-		$localURL = Handler::getURL();
+		$localURL = self::getUrl();
 		$url = $doc->createElement('url', self::$url);
 		$url->setAttribute('tail', array_pop(explode('/', self::$url)));
 		$common->appendChild($url);
