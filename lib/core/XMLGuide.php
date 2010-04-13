@@ -7,7 +7,7 @@ class XMLGuide
     
     public function __construct ()
     {
-        $this->xmlMap = simplexml_load_file (XSite::MAP_PATH);
+        $this->xmlMap = simplexml_load_file (XSite::PATH_MAP);
         
         $this->site = array(
             'root'    => $this->xmlMap['site'],
@@ -15,9 +15,15 @@ class XMLGuide
         );
     }
     
+    private $cache;
+    
     public function getSitePath ($url)
     {
-        $url = trim($url, '/');        
+        $url = trim($url, '/');
+        
+        $this->cache = new XMLCache ($url);        
+        if ($site = $this->cache->getSite()) return $site;
+        
         $urlParts = explode ('/', $url);        
         $branch = $this->xmlMap;
         
@@ -85,10 +91,12 @@ class XMLGuide
                 }
                 
                 if (!$branch['regexp'] && !$branch['func']) 
-                    return $this->site['404'];
+                    return $this->export();
             }
             
-            if ($branch['site']) return $branch['site'];
+            if ($branch['site']) 
+                return $this->export($branch['site']);
+                
             if ($branch['redirect']) 
             {
                 header ('Location: '.$branch['redirect']);
@@ -97,12 +105,21 @@ class XMLGuide
             
             $parent = $branch->xpath('ancestor::*[@subsite]');
             if ($parent[0]['subsite']) 
-                return $parent[0]['subsite'];
-            
-            #return $this->site['default'];
+                return $this->export($parent[0]['subsite']);
         }
         
-        return $this->site['404'];                 
+        return $this->export();    
+    }
+    
+    private function export ($site = null)
+    {
+        if ($site)
+        {
+            $this->cache->setSite($site);
+            return $site;
+        }
+        
+        return $this->site['404'];
     }
     
 }

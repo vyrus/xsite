@@ -4,25 +4,29 @@
  */
  
 define ('__XSITE_ROOT', dirname(realpath(__FILE__)).'/../' );
-define ('__XSITE_XSL',     __XSITE_ROOT.'xsl/');
-define ('__XSITE_SITES',   __XSITE_ROOT.'sites/');
-define ('__XSITE_WORKERS', __XSITE_ROOT.'workers/');
-define ('__XSITE_MAP',     __XSITE_ROOT.'www.xml');
-#Core
+define ('__XSITE_XSL',           __XSITE_ROOT.'xsl/');
+define ('__XSITE_SITES',         __XSITE_ROOT.'sites/');
+define ('__XSITE_WORKERS',       __XSITE_ROOT.'workers/');
+define ('__XSITE_MAP',           __XSITE_ROOT.'www.xml');
+define ('__XSITE_CACHE_SITES',   __XSITE_ROOT.'cache/sites.xml');
+define ('__XSITE_CACHE_SITEMAP', __XSITE_ROOT.'cache/sitemap.xml');
+
+require_once __XSITE_ROOT.'lib/core/XMLCache.php';
 require_once __XSITE_ROOT.'lib/core/XMLGuide.php';
 require_once __XSITE_ROOT.'lib/core/XMLSite.php';
-#URLInspector
 require_once __XSITE_ROOT.'lib/URLInspector.php';
 
 class XSite
 {
-    const WORKER_NAMESPACE = 'urn:xsite-data';
-    const VIEW_XML_OPTION  = 'toxml';
+    const NAMESPACE_WORKER = 'urn:xsite-data';
+    const OPTION_VIEW_XML  = 'toxml';
     
-    const XSL_PATH    = __XSITE_XSL;
-    const SITE_PATH   = __XSITE_SITES;
-    const WORKER_PATH = __XSITE_WORKERS;
-    const MAP_PATH    = __XSITE_MAP;
+    const PATH_XSL    = __XSITE_XSL;
+    const PATH_SITE   = __XSITE_SITES;
+    const PATH_WORKER = __XSITE_WORKERS;
+    const PATH_MAP    = __XSITE_MAP;
+    const PATH_CACHE_SITES   = __XSITE_CACHE_SITES;
+    const PATH_CACHE_SITEMAP = __XSITE_CACHE_SITEMAP;
     
     private static $url;
     
@@ -33,13 +37,13 @@ class XSite
         
         $guide = new XMLGuide ();
         $site  = new XMLSite ();
-
+        
         $site->load( 
             $guide->getSitePath(self::$url)
         );
-
+        
         $site->appendNode(self::commonNode());
-
+        
         $site->display();
     }
     
@@ -95,7 +99,7 @@ class XSite
 	    $includes = $doc->createElement('includes');
 	    
 	    $siteMap = new DOMDocument('1.0', 'UTF-8');
-	    $siteMap->load(XSITE::MAP_PATH);
+	    $siteMap->load(XSITE::PATH_MAP);
 	    
 		$includes->appendChild(
 		    $doc->importNode($siteMap->documentElement, true)

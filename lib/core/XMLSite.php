@@ -6,7 +6,7 @@ class XMLSite
     
     public function load ($sitePath)
     {
-        $sitePath = XSite::SITE_PATH.$sitePath;
+        $sitePath = XSite::PATH_SITE.$sitePath;
         if (!file_exists($sitePath)) 
         {
             #TODO: log 'site $sitePath not found'
@@ -17,7 +17,7 @@ class XMLSite
 		
 		#Worker		
 		$worker = $this->site->documentElement->getAttribute('worker');
-		$workerPath = XSite::WORKER_PATH.str_replace('::','/',$worker).'.php';
+		$workerPath = XSite::PATH_WORKER.str_replace('::','/',$worker).'.php';
 		
 		if (file_exists($workerPath))
 		{
@@ -28,7 +28,7 @@ class XMLSite
     
     protected function processNSNodes ($worker)
     {
-        $NSNodes = $this->site->getElementsByTagNameNS(XSite::WORKER_NAMESPACE, '*');
+        $NSNodes = $this->site->getElementsByTagNameNS(XSite::NAMESPACE_WORKER, '*');
 		
 		while ($NSNodes->length)
 		{			    		    
@@ -64,14 +64,14 @@ class XMLSite
         if (!$this->site) return;
         $xslPath = $this->site->documentElement->getAttribute('transform');        
         
-        if (isset($_GET[XSite::VIEW_XML_OPTION]) || !$xslPath) 
+        if (isset($_GET[XSite::OPTION_VIEW_XML]) || !$xslPath) 
 		{
 			header('Content-type: text/xml; charset=utf-8');
 			echo $this->site->saveXML();
 		}
 		else
 		{	
-		    $xslPath = XSite::XSL_PATH.$xslPath;    		    
+		    $xslPath = XSite::PATH_XSL.$xslPath;    		    
 		    if (!file_exists($xslPath)) return;
 		    
 		    $xsl = new DOMDocument('1.0', 'UTF-8');
