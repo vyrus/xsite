@@ -89,6 +89,11 @@ class XMLGuide
             }
             
             if ($branch['site']) return $branch['site'];
+            if ($branch['redirect']) 
+            {
+                header ('Location: '.$branch['redirect']);
+                return;
+            }
             
             $parent = $branch->xpath('ancestor::*[@subsite]');
             if ($parent[0]['subsite']) 

@@ -5,7 +5,7 @@
      site-404="www/404.xml">
      
     <news site="news/index.xml">
-        <blah site="blah.xml"/>
+        <blah redirect="/news"/>
         <item regexp="[0-9]{4}/[0-9]{1,2}/[0-9]{1,2}" site="news/index.xml"/>
         <item func="is-news-title" site="news/index.xml"/>
     </news>
