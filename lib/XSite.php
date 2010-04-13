@@ -3,14 +3,16 @@
  *@author danyastuff
  */
  
-define ('__XSITE_ROOT', dirname(realpath(__FILE__)).'/' );
+define ('__XSITE_ROOT', dirname(realpath(__FILE__)).'/../' );
 define ('__XSITE_XSL',     __XSITE_ROOT.'xsl/');
 define ('__XSITE_SITES',   __XSITE_ROOT.'sites/');
 define ('__XSITE_WORKERS', __XSITE_ROOT.'workers/');
 define ('__XSITE_MAP',     __XSITE_ROOT.'www.xml');
-
-require_once __XSITE_ROOT.'lib/XMLGuide.php';
-require_once __XSITE_ROOT.'lib/XMLSite.php';
+#Core
+require_once __XSITE_ROOT.'lib/core/XMLGuide.php';
+require_once __XSITE_ROOT.'lib/core/XMLSite.php';
+#URLInspector
+require_once __XSITE_ROOT.'lib/URLInspector.php';
 
 class XSite
 {

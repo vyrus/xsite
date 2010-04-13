@@ -45,7 +45,7 @@ class XMLGuide
             #if there isn't any static url but regexp found
             if ($urlParts 
                 && !isset($branch->{$urlParts[0]}) 
-                && ($items = $branch->xpath('item[@regexp]'))
+                && ($items = $branch->xpath('item[@regexp | @func]'))
             ) {
                 $branch = $items;
                 break;
@@ -54,20 +54,38 @@ class XMLGuide
         
         if ($branch) #anyway page is found
         {
-            if (isset($branch[0]['regexp'])) #xpath for item[@regexp]
+            if (isset($branch[0]['regexp']) || isset($branch[0]['func']) ) 
             {                   
                 $tail = implode('/', $urlParts);
-                                
+                
                 foreach ($branch as $item)
                 {
-                    $pattern = '{^'.$item['regexp'].'$}';
-                    if (preg_match ($pattern, $tail)) {
-                        $branch = $item;
-                        break;
+                    if (isset($item['regexp']))
+                    {
+                        $pattern = '{^'.$item['regexp'].'$}';
+                        if (preg_match ($pattern, $tail)) 
+                        {
+                            $branch = $item;
+                            break;
+                        }
+                    } 
+                    else if (isset($item['func']))
+                    {
+                        $method = str_replace('-', '_', $item['func']);
+                        
+                        if (!isset($inspector)) $inspector = new URLInspector();                        
+                        
+                        if (@$inspector->{$method}($tail))
+                        {
+                            $branch = $item;
+                            break;
+                        }
                     }
+                    
                 }
                 
-                if (!$branch['regexp']) return $this->site['404'];
+                if (!$branch['regexp'] && !$branch['func']) 
+                    return $this->site['404'];
             }
             
             if ($branch['site']) return $branch['site'];

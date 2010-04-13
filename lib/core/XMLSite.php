@@ -7,8 +7,11 @@ class XMLSite
     public function load ($sitePath)
     {
         $sitePath = XSite::SITE_PATH.$sitePath;
-        if (!file_exists($sitePath)) return;
-        
+        if (!file_exists($sitePath)) 
+        {
+            #TODO: log 'site $sitePath not found'
+            return;
+        }
         $this->site = new DOMDocument('1.0', 'UTF-8');
 		$this->site->load($sitePath);				
 		

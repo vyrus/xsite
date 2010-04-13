@@ -6,8 +6,8 @@
      
     <news site="news/index.xml">
         <blah site="blah.xml"/>
-        <item regexp="[0-9]{4}/[0-9]{1,2}/[0-9]{1,2}" site="news/item.xml"/>
-        <item regexp="[0-9]{4}" site="news/item-2.xml"/>
+        <item regexp="[0-9]{4}/[0-9]{1,2}/[0-9]{1,2}" site="news/index.xml"/>
+        <item func="is-news-title" site="news/index.xml"/>
     </news>
     <departments site="departments/index.xml" subsite="departments/item.xml">
         <finance>
