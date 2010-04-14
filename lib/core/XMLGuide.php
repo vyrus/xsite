@@ -44,18 +44,18 @@ class XMLGuide
             } 
             else
             {
+                #if there isn't any static url but regexp found
+                array_unshift($urlParts, $part);
+                
+                if ($items = $branch->xpath('item[@regexp | @func]')) 
+                {
+                    $branch = $items;
+                    break;
+                }
+                
                 $branch = null;
                 break;
-            }                                            
-            
-            #if there isn't any static url but regexp found
-            if ($urlParts 
-                && !isset($branch->{$urlParts[0]}) 
-                && ($items = $branch->xpath('item[@regexp | @func]'))
-            ) {
-                $branch = $items;
-                break;
-            }
+            }                        
         }
         
         if ($branch) #anyway page is found
