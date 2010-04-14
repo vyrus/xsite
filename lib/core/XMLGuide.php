@@ -27,7 +27,7 @@ class XMLGuide
         $urlParts = explode ('/', $url);        
         $branch = $this->xmlMap;
         
-        if (!$urlParts) return $this->site['root'];
+        if (!$urlParts[0]) return $this->export($this->site['root']);
         
         while ($urlParts)
         {
