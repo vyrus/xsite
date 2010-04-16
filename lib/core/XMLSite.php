@@ -42,10 +42,17 @@ class XMLSite
 			$w = new $worker ();			
 			
 			if ($dataNode = $w->$method($args)) 
-				$node->parentNode->replaceChild(
-					$doc->importNode($dataNode, true), 
+			{
+			    $class = get_class ($dataNode); //SimpleXMLElement or DOMElement
+			    
+			    if ($class == 'SimpleXMLElement')
+			        $dataNode = dom_import_simplexml ($dataNode);
+			    
+			    $node->parentNode->replaceChild(
+					$this->site->importNode($dataNode, true), 
 					$node
 				);
+			}				
 			else
 			    $node->parentNode->removeChild($node);
 		}

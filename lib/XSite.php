@@ -4,7 +4,7 @@
  */
  
 define ('__XSITE_ROOT', dirname(realpath(__FILE__)).'/../' );
-define ('__XSITE_XSL',           __XSITE_ROOT.'xsl/');
+define ('__XSITE_XSL',           __XSITE_ROOT.'../../xsl/');
 define ('__XSITE_SITES',         __XSITE_ROOT.'sites/');
 define ('__XSITE_WORKERS',       __XSITE_ROOT.'workers/');
 define ('__XSITE_MAP',           __XSITE_ROOT.'www.xml');
