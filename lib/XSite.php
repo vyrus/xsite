@@ -74,18 +74,29 @@ class XSite
 		$url->setAttribute('tail', array_pop(explode('/', self::$url)));
 		$common->appendChild($url);
 		
-		#Query string
-		$queryString = $doc->createElement('query-string');
-		$qs = explode('&', $_SERVER['QUERY_STRING']);
-		foreach ($qs as $pair)
-        {
-            $pair = explode('=', $pair);
-            $k = $pair[0]; $v = $pair[1];
-	        $item = $doc->createElement('item', $v);
-	        $item->setAttribute('name', $k);
-		    $queryString->appendChild($item);
-	    }
-	    $common->appendChild($queryString);
+		#Request
+		function toChildren ($doc, $node, $array) 
+		{
+		    foreach ($array as $key => $value)
+		    {		        
+		        if (is_array($value))
+		        {
+		            $item = $doc->createElement('item');
+		            toChildren ($doc, $item, $value);
+		        }
+		        else
+		        {
+		            $item = $doc->createElement('item', $value);
+		        }
+		        
+		        $item->setAttribute('name', $key);
+		        $node->appendChild($item);
+		    }
+		}
+		
+	    $request = $doc->createElement('request');
+	    toChildren($doc, $request, $_REQUEST);
+	    $common->appendChild($request);	    
 		
 		#Date
 		$date = $doc->createElement('date');
@@ -99,11 +110,10 @@ class XSite
 	    $includes = $doc->createElement('includes');
 	    
 	    $siteMap = new DOMDocument('1.0', 'UTF-8');
-	    $siteMap->load(XSITE::PATH_MAP);
-	    
+	    $siteMap->load(XSITE::PATH_MAP);	    
 		$includes->appendChild(
 		    $doc->importNode($siteMap->documentElement, true)
-		);
+		);				
 		
 		$common->appendChild($includes);
 		
