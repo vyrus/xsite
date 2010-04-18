@@ -58,6 +58,12 @@ class XMLSite
 		}
     }
     
+    public function getAttribute ($name)
+    {
+        if (!$this->site) return false;
+        return $this->site->documentElement->getAttribute($name);
+    }
+    
     public function appendNode ($DOMNode)
     {
         if ($this->site)

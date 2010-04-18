@@ -42,15 +42,19 @@ class XSite
             $guide->getSitePath(self::$url)
         );
         
-        $site->appendNode(self::commonNode());
+        if (!$site->getAttribute('api'))
+            $site->appendNode(self::commonNode());
         
         $site->display();
     }
     
     #Current URL    
-    public static function getUrl ()
+    public static function getUrl ($index = null)
     {
-        return self::$url;
+        if ($index == null) return self::$url;
+        
+        $parts = explode('/', trim(self::$url, '/'));
+        return isset($parts[$index]) ? $parts[$index] : '';
     }
     
     #Common node, added to every page
