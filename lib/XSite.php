@@ -7,9 +7,6 @@ define ('__XSITE_ROOT', dirname(realpath(__FILE__)).'/../' );
 define ('__XSITE_XSL',           __XSITE_ROOT.'../../xsl/');
 define ('__XSITE_SITES',         __XSITE_ROOT.'sites/');
 define ('__XSITE_WORKERS',       __XSITE_ROOT.'workers/');
-#define ('__XSITE_MAP',           __XSITE_ROOT.'www.xml');
-#define ('__XSITE_CACHE_SITES',   __XSITE_ROOT.'cache/sites.xml');
-#define ('__XSITE_CACHE_SITEMAP', __XSITE_ROOT.'cache/sitemap.xml');
 define ('__XSITE_MAP',           __XSITE_ROOT.'www/');
 define ('__XSITE_CACHE',         __XSITE_ROOT.'cache/');
 
@@ -28,8 +25,6 @@ class XSite
     const PATH_WORKER = __XSITE_WORKERS;
     const PATH_MAP    = __XSITE_MAP;
     const PATH_CACHE  = __XSITE_CACHE;
-    #const PATH_CACHE_SITES   = __XSITE_CACHE_SITES;
-    #const PATH_CACHE_SITEMAP = __XSITE_CACHE_SITEMAP;
     
     private static $map;
     private static $url;    
