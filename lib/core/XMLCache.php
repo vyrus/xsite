@@ -7,13 +7,21 @@ class XMLCache
     private $sitesXML;
     private $sitemapXML;
     
-    public function __construct ($url)
+    private $mapPath;
+    private $sitesPath;
+    private $sitemapPath;
+    
+    public function __construct ($map)
     {
-        $this->url = '/'.trim($url, '/');
+        $this->mapPath = XSite::PATH_MAP.$map;
+        $this->sitesPath = XSite::PATH_CACHE.$map;
+        $this->sitemapPath = XSite::PATH_CACHE.'sitemap.xml';
     }     
     
-    public function getSite ()
+    public function getSite ($url)
     {        
+        $this->url = '/'.trim($url, '/');
+        
         $sites = $this->getSites();
         $items = $sites->xpath("item[@url = '{$this->url}']");
         
@@ -27,7 +35,7 @@ class XMLCache
         }
         $this->itemForUrl = $items[0];
         
-        if (filemtime(XSite::PATH_MAP) > (int) $this->itemForUrl['changed'])
+        if (filemtime($this->mapPath) > (int) $this->itemForUrl['changed'])
             return false;
         
         return $this->itemForUrl['site'];
@@ -40,7 +48,7 @@ class XMLCache
         $this->itemForUrl['changed'] = time();
         
         fwrite(
-            fopen(XSite::PATH_CACHE_SITES, 'w+'),
+            fopen($this->sitesPath, 'w+'),
             $this->getSites()->asXML()
         );
     }
@@ -57,7 +65,7 @@ class XMLCache
         $url->addChild('priority', '0.5');
         
         fwrite(
-            fopen(XSite::PATH_CACHE_SITEMAP, 'w+'),
+            fopen($this->sitemapPath, 'w+'),
             $sitemap->asXML()
         );
     }
@@ -73,29 +81,26 @@ class XMLCache
     
     private function getSites ()
     {
-        if (!file_exists(XSite::PATH_CACHE_SITES))
-            $this->createXMLFile(
-                XSite::PATH_CACHE_SITES, 
-                'sites'
-            );
+        if (!file_exists($this->sitesPath))
+            $this->createXMLFile($this->sitesPath, 'sites');
         
         if (!$this->sitesXML)
-            $this->sitesXML = simplexml_load_file (XSite::PATH_CACHE_SITES);
+            $this->sitesXML = simplexml_load_file ($this->sitesPath);
         
         return $this->sitesXML;
     }
     
     private function getSitemap ()
     {
-        if (!file_exists(XSite::PATH_CACHE_SITEMAP))
+        if (!file_exists($this->sitemapPath))
             $this->createXMLFile(
-                XSite::PATH_CACHE_SITEMAP, 
+                $this->sitemapPath, 
                 'urlset',
                 'http://www.google.com/schemas/sitemap/0.84'
             );
         
         if (!$this->sitemapXML)
-            $this->sitemapXML = simplexml_load_file (XSite::PATH_CACHE_SITEMAP);
+            $this->sitemapXML = simplexml_load_file ($this->sitemapPath);
         
         return $this->sitemapXML;
     }

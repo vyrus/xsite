@@ -2,12 +2,15 @@
 
 class XMLGuide 
 {
-    private $xmlMap;   
-    private $site;    
+    private $xmlMap;
+    private $site;
     
-    public function __construct ()
+    private $map;
+    
+    public function __construct ($map)
     {
-        $this->xmlMap = simplexml_load_file (XSite::PATH_MAP);
+        $this->map = $map;
+        $this->xmlMap = simplexml_load_file (XSite::PATH_MAP.$this->map);
         
         $this->site = array(
             'root'    => $this->xmlMap['site'],
@@ -21,8 +24,8 @@ class XMLGuide
     {
         $url = trim($url, '/');
         
-        $this->cache = new XMLCache ($url);        
-        if ($site = $this->cache->getSite()) return $site;
+        $this->cache = new XMLCache ($this->map);        
+        if ($site = $this->cache->getSite($url)) return $site;
         
         $urlParts = explode ('/', $url);        
         $branch = $this->xmlMap;

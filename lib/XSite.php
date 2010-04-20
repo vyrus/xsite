@@ -7,9 +7,11 @@ define ('__XSITE_ROOT', dirname(realpath(__FILE__)).'/../' );
 define ('__XSITE_XSL',           __XSITE_ROOT.'../../xsl/');
 define ('__XSITE_SITES',         __XSITE_ROOT.'sites/');
 define ('__XSITE_WORKERS',       __XSITE_ROOT.'workers/');
-define ('__XSITE_MAP',           __XSITE_ROOT.'www.xml');
-define ('__XSITE_CACHE_SITES',   __XSITE_ROOT.'cache/sites.xml');
-define ('__XSITE_CACHE_SITEMAP', __XSITE_ROOT.'cache/sitemap.xml');
+#define ('__XSITE_MAP',           __XSITE_ROOT.'www.xml');
+#define ('__XSITE_CACHE_SITES',   __XSITE_ROOT.'cache/sites.xml');
+#define ('__XSITE_CACHE_SITEMAP', __XSITE_ROOT.'cache/sitemap.xml');
+define ('__XSITE_MAP',           __XSITE_ROOT.'www/');
+define ('__XSITE_CACHE',         __XSITE_ROOT.'cache/');
 
 require_once __XSITE_ROOT.'lib/core/XMLCache.php';
 require_once __XSITE_ROOT.'lib/core/XMLGuide.php';
@@ -25,17 +27,19 @@ class XSite
     const PATH_SITE   = __XSITE_SITES;
     const PATH_WORKER = __XSITE_WORKERS;
     const PATH_MAP    = __XSITE_MAP;
-    const PATH_CACHE_SITES   = __XSITE_CACHE_SITES;
-    const PATH_CACHE_SITEMAP = __XSITE_CACHE_SITEMAP;
+    const PATH_CACHE  = __XSITE_CACHE;
+    #const PATH_CACHE_SITES   = __XSITE_CACHE_SITES;
+    #const PATH_CACHE_SITEMAP = __XSITE_CACHE_SITEMAP;
     
-    private static $url;
+    private static $map;
+    private static $url;    
     
     #Main method, displays page for URL
     public static function displayPage ($url)
     {
         self::$url = '/'.trim($url, '/');
         
-        $guide = new XMLGuide ();
+        $guide = new XMLGuide (self::$map);
         $site  = new XMLSite ();
         
         $site->load( 
@@ -46,6 +50,11 @@ class XSite
             $site->appendNode(self::commonNode());
         
         $site->display();
+    }
+    
+    public static function setMap ($map) 
+    { 
+        self::$map = $map; 
     }
     
     #Current URL    
@@ -114,7 +123,7 @@ class XSite
 	    $includes = $doc->createElement('includes');
 	    
 	    $siteMap = new DOMDocument('1.0', 'UTF-8');
-	    $siteMap->load(XSITE::PATH_MAP);	    
+	    $siteMap->load(XSITE::PATH_MAP.self::$map);	    
 		$includes->appendChild(
 		    $doc->importNode($siteMap->documentElement, true)
 		);				
