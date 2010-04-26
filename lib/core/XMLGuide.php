@@ -103,6 +103,7 @@ class XMLGuide
             if ($branch['redirect']) 
             {
                 header ('Location: '.$branch['redirect']);
+                exit();
                 return;
             }
             

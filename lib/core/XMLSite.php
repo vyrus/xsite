@@ -38,7 +38,8 @@ class XMLSite
 			foreach ($node->attributes as $attr)
 			    $args[$attr->name] = $attr->value;
 			
-			$method = str_replace('-', '_', str_replace('xsite:', '', $node->nodeName));			
+			$method = str_replace('-', '_', str_replace('xsite:', '', $node->nodeName));
+			
 			$w = new $worker ();			
 			
 			if ($dataNode = $w->$method($args)) 

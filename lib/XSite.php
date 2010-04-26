@@ -4,11 +4,11 @@
  */
  
 define ('__XSITE_ROOT', dirname(realpath(__FILE__)).'/../' );
-define ('__XSITE_XSL',           __XSITE_ROOT.'../../xsl/');
-define ('__XSITE_SITES',         __XSITE_ROOT.'sites/');
-define ('__XSITE_WORKERS',       __XSITE_ROOT.'workers/');
-define ('__XSITE_MAP',           __XSITE_ROOT.'www/');
-define ('__XSITE_CACHE',         __XSITE_ROOT.'cache/');
+define ('__XSITE_XSL',     __XSITE_ROOT.'../../xsl/');
+define ('__XSITE_SITES',   __XSITE_ROOT.'sites/');
+define ('__XSITE_WORKERS', __XSITE_ROOT.'workers/');
+define ('__XSITE_MAP',     __XSITE_ROOT.'www/');
+define ('__XSITE_CACHE',   __XSITE_ROOT.'cache/');
 
 require_once __XSITE_ROOT.'lib/core/XMLCache.php';
 require_once __XSITE_ROOT.'lib/core/XMLGuide.php';
@@ -121,7 +121,13 @@ class XSite
 	    $siteMap->load(XSITE::PATH_MAP.self::$map);	    
 		$includes->appendChild(
 		    $doc->importNode($siteMap->documentElement, true)
-		);				
+		);
+		
+		$locale = new DOMDocument('1.0', 'UTF-8');
+	    $locale->load(PATH_XML.'ru/locale.xml');
+		$includes->appendChild(
+		    $doc->importNode($locale->documentElement, true)
+		);
 		
 		$common->appendChild($includes);
 		
